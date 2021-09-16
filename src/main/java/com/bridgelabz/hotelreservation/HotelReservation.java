@@ -15,11 +15,8 @@ public class HotelReservation {
 	public Hotel cheapestHotel(LocalDate arrivalDate,LocalDate departureDate) {
 	
 		int stayPeriod = Period.between(arrivalDate, departureDate).getDays();
-		Hotel hotel=hotelList.stream().min((c1,c2)->c1.getHotelRate()-c2.getHotelRate()).orElse(null);
-		if(hotel==null)
-			System.out.println("No Cheapest Hotel");
-		else
-			System.out.println("Cheapest hotel"+hotel.getHotelRate()*stayPeriod);
+		Hotel hotel=hotelList.stream().min((c1,c2)->c1.getWeekdayHotelRate()-c2.getWeekdayHotelRate()).orElse(null);
+		System.out.println("Cheapest hotel"+hotel.getWeekdayHotelRate()*stayPeriod);
 		return hotel;
 		
 	}
