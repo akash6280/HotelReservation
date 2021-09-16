@@ -7,7 +7,7 @@ import org.junit.Assert;
 public class HotelReservationTest {
 	@Test
 	public void givenHotel_WhenAdded_ShouldReturnTrue() {
-		Hotel hotel=new Hotel("Lakewood",100);
+		Hotel hotel=new Hotel("Lakewood",100,150);
 		HotelReservation hotelReservation=new HotelReservation();
 		boolean result=hotelReservation.addHotel(hotel);
 		Assert.assertTrue(result);
@@ -16,9 +16,9 @@ public class HotelReservationTest {
 	@Test
 	public void givenDate_WhenFoundCheapestHotel_ShouldReturnHotel() {
 		HotelReservation hotelReservation=new HotelReservation();
-		Hotel hotel1=new Hotel("Lakewood",100);
+		Hotel hotel1=new Hotel("Lakewood",100, 150);
 		hotelReservation.addHotel(hotel1);
-		Hotel hotel2=new Hotel("BridgeWood",200);
+		Hotel hotel2=new Hotel("BridgeWood",200, 250);
 		hotelReservation.addHotel(hotel2);
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 11);
