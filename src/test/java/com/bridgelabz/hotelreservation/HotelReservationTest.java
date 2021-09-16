@@ -43,5 +43,14 @@ public class HotelReservationTest {
 		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
 		Assert.assertEquals("LakeWood",hotel.getHotelName());
 	}
+	@Test
+	public void givenWeekendAndWeekDays_WhenNoHotel_ShouldReturnNull() {
+		HotelReservation hotelReservation=new HotelReservation();
+		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
+		LocalDate departureDate = LocalDate.of(2020, 9, 15);
+		
+		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
+		Assert.assertNull(hotel);
+	}
   
 }
