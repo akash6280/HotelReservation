@@ -28,4 +28,15 @@ public class HotelReservation {
 		return cheapestHotel;
 		
 	}
+	
+	public Hotel cheapestAndBestRatedHotel(LocalDate arrivalDate,LocalDate departureDate) {
+	
+		Hotel cheapestHotel=cheapestHotel(arrivalDate, departureDate);
+		Hotel cheapestBestRatedHotel=hotelList.stream()
+								   .filter(h->(h.getWeekendHotelRate()*noOfWeekEnd+h.getWeekdayHotelRate()*noOfWeekDay)==(cheapestHotel.getWeekdayHotelRate()*noOfWeekDay+cheapestHotel.getWeekendHotelRate()*noOfWeekEnd))
+								   .max((h1,h2) -> h2.getHotelRating()-h1.getHotelRating())
+								   .orElse(null);
+		
+		return cheapestBestRatedHotel;
+	}
 }
