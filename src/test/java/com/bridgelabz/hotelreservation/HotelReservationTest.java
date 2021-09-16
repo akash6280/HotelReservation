@@ -66,5 +66,13 @@ public class HotelReservationTest {
 		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate);
 		Assert.assertEquals("BridgeWood",hotel.getHotelName());
 	}
+	@Test
+	public void givenDateRange_WhenNotFoundCheapestAndBestRatedHotel_ShouldReturnNull() {
+		HotelReservation hotelReservation=new HotelReservation();
+		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
+		LocalDate departureDate = LocalDate.of(2020, 9, 15);
+		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate);
+		Assert.assertEquals(null,hotel);
+	}
   
 }
