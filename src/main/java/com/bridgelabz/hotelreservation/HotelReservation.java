@@ -2,6 +2,7 @@ package com.bridgelabz.hotelreservation;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class HotelReservation {
@@ -34,9 +35,26 @@ public class HotelReservation {
 		Hotel cheapestHotel=cheapestHotel(arrivalDate, departureDate);
 		Hotel cheapestBestRatedHotel=hotelList.stream()
 								   .filter(h->(h.getWeekendHotelRate()*noOfWeekEnd+h.getWeekdayHotelRate()*noOfWeekDay)==(cheapestHotel.getWeekdayHotelRate()*noOfWeekDay+cheapestHotel.getWeekendHotelRate()*noOfWeekEnd))
-								   .max((h1,h2) -> h2.getHotelRating()-h1.getHotelRating())
+								   .max((h1,h2) -> h1.getHotelRating()-h2.getHotelRating())
 								   .orElse(null);
 		
 		return cheapestBestRatedHotel;
+	}
+	
+	public Hotel getBestRatedHotel(LocalDate arrivalDate,LocalDate departureDate) {
+		
+		while(arrivalDate.compareTo(departureDate) <=0) {
+			if(arrivalDate.getDayOfWeek()==DayOfWeek.SATURDAY||arrivalDate.getDayOfWeek()==DayOfWeek.SUNDAY)
+				noOfWeekEnd++;
+			else
+				noOfWeekDay++;
+			arrivalDate=arrivalDate.plusDays(1);
+		}
+		Hotel bestRatedHotel = hotelList.stream()
+							  .max( (h1,h2)->h1.getHotelRating()-h2.getHotelRating())
+							  .orElse(null);
+		System.out.println("Price"+(bestRatedHotel.getWeekdayHotelRate()*noOfWeekDay+bestRatedHotel.getWeekendHotelRate()*noOfWeekEnd));
+		return bestRatedHotel;
+		
 	}
 }
