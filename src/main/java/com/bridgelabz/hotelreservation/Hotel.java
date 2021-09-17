@@ -5,6 +5,25 @@ public class Hotel{
 	    private int weekdayHotelRate;
 	    private int weekendHotelRate;
 	    private int hotelRating;
+	    private int rewardWeekDayHotelRate;
+		private int rewardWeekEndHotelRate;
+		
+		public int getRewardWeekDayHotelRate() {
+			return rewardWeekDayHotelRate;
+		}
+
+		public void setRewardWeekDayHotelRate(int rewardWeekDayHotelRate) {
+			this.rewardWeekDayHotelRate = rewardWeekDayHotelRate;
+		}
+
+		public int getRewardWeekEndHotelRate() {
+			return rewardWeekEndHotelRate;
+		}
+
+		public void setRewardWeekEndHotelRate(int rewardWeekEndHotelRate) {
+			this.rewardWeekEndHotelRate = rewardWeekEndHotelRate;
+		}
+
 		public int getHotelRating() {
 			return hotelRating;
 		}
@@ -17,12 +36,14 @@ public class Hotel{
 			return hotelName;
 		}
 		
-		public Hotel(String hotelName, int weekdayHotelRate, int weekendHotelRate,int hotelRating) {
+		public Hotel(String hotelName, int weekdayHotelRate, int weekendHotelRate, int hotelRating,int rewardWeekDayHotelRate, int rewardWeekEndHotelRate) {
 			super();
 			this.hotelName = hotelName;
 			this.weekdayHotelRate = weekdayHotelRate;
 			this.weekendHotelRate = weekendHotelRate;
-			this.hotelRating=hotelRating;
+			this.hotelRating = hotelRating;
+			this.rewardWeekDayHotelRate = rewardWeekDayHotelRate;
+			this.rewardWeekEndHotelRate = rewardWeekEndHotelRate;
 		}
 
 		public int getWeekdayHotelRate() {
