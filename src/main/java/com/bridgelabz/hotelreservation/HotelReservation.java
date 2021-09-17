@@ -53,6 +53,7 @@ public class HotelReservation {
 		Hotel bestRatedHotel = hotelList.stream()
 							  .max( (h1,h2)->h1.getHotelRating()-h2.getHotelRating())
 							  .orElse(null);
+		if(bestRatedHotel!=null)	
 		System.out.println("Price"+(bestRatedHotel.getWeekdayHotelRate()*noOfWeekDay+bestRatedHotel.getWeekendHotelRate()*noOfWeekEnd));
 		return bestRatedHotel;
 		
