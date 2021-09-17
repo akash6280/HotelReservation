@@ -1,6 +1,9 @@
 package com.bridgelabz.hotelreservation;
 
 import org.junit.Test;
+
+import com.bridgelabz.hotelreservation.HotelReservationException.exceptionType;
+
 import java.time.LocalDate;
 import org.junit.Assert;
 
@@ -23,7 +26,7 @@ public class HotelReservationTest {
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 11);
 		
-		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
+		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate,CustomerType.REGULAR);
 		Assert.assertEquals("LakeWood",hotel.getHotelName());
 	}
 	
@@ -40,7 +43,7 @@ public class HotelReservationTest {
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 15);
 		
-		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
+		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate,CustomerType.REWARD);
 		Assert.assertEquals("LakeWood",hotel.getHotelName());
 	}
 	
@@ -50,7 +53,7 @@ public class HotelReservationTest {
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 15);
 		
-		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
+		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate,CustomerType.REWARD);
 		Assert.assertNull(hotel);
 	}
 	
@@ -65,8 +68,8 @@ public class HotelReservationTest {
 		hotelReservation.addHotel(hotel3);
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 15);
-		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate);
-		Assert.assertEquals("BridgeWood",hotel.getHotelName());
+		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate,CustomerType.REWARD);
+		Assert.assertEquals("LakeWood",hotel.getHotelName());
 	}
 	
 	@Test
@@ -74,7 +77,7 @@ public class HotelReservationTest {
 		HotelReservation hotelReservation=new HotelReservation();
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 15);
-		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate);
+		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate,CustomerType.REWARD);
 		Assert.assertEquals(null,hotel);
 	}
 	
@@ -94,12 +97,30 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void givenDateRange_WhenNoHotelFound_ShouldReturnNull() {
+	public void givenDateRange_WhenNoBestRatedHotelFound_ShouldReturnNull() {
 		HotelReservation hotelReservation=new HotelReservation();
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
 		LocalDate departureDate = LocalDate.of(2020, 9, 15);
 		Hotel hotel=hotelReservation.getBestRatedHotel(arrivalDate, departureDate);
 		Assert.assertNull(hotel);
+	}
+	
+	@Test
+	public void givenDateRange_WhenArrivaLDateIsNull_ShouldThrowException() {
+		HotelReservation hotelReservation=new HotelReservation();
+		Hotel hotel1=new Hotel("LakeWood",110, 90,3,80,80);
+		hotelReservation.addHotel(hotel1);
+		Hotel hotel2=new Hotel("BridgeWood",150, 50,4,110,50);
+		hotelReservation.addHotel(hotel2);
+		Hotel hotel3=new Hotel("RidgeWood",220, 150,5,100,40);
+		hotelReservation.addHotel(hotel3);
+		LocalDate departureDate = LocalDate.of(2020, 9, 15);
+		
+		try {
+			hotelReservation.cheapestAndBestRatedHotel(null, departureDate,CustomerType.REWARD);
+		} catch (HotelReservationException e) {
+			Assert.assertEquals(exceptionType.ENTERED_NULL,e.etype);
+		}
 	}
   
 }
