@@ -43,6 +43,7 @@ public class HotelReservationTest {
 		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
 		Assert.assertEquals("LakeWood",hotel.getHotelName());
 	}
+	
 	@Test
 	public void givenWeekendAndWeekDays_WhenNoHotel_ShouldReturnNull() {
 		HotelReservation hotelReservation=new HotelReservation();
@@ -52,10 +53,11 @@ public class HotelReservationTest {
 		Hotel hotel=hotelReservation.cheapestHotel(arrivalDate, departureDate);
 		Assert.assertNull(hotel);
 	}
+	
 	@Test
 	public void givenDateRange_WhenFoundCheapestAndBestRatedHotel_ShouldReturnHotel() {
 		HotelReservation hotelReservation=new HotelReservation();
-		Hotel hotel1=new Hotel("LakeWood",110, 90,78);
+		Hotel hotel1=new Hotel("LakeWood",110, 90,3);
 		hotelReservation.addHotel(hotel1);
 		Hotel hotel2=new Hotel("BridgeWood",110, 90,4);
 		hotelReservation.addHotel(hotel2);
@@ -66,6 +68,7 @@ public class HotelReservationTest {
 		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate);
 		Assert.assertEquals("BridgeWood",hotel.getHotelName());
 	}
+	
 	@Test
 	public void givenDateRange_WhenNotFoundCheapestAndBestRatedHotel_ShouldReturnNull() {
 		HotelReservation hotelReservation=new HotelReservation();
@@ -73,6 +76,21 @@ public class HotelReservationTest {
 		LocalDate departureDate = LocalDate.of(2020, 9, 15);
 		Hotel hotel=hotelReservation.cheapestAndBestRatedHotel(arrivalDate, departureDate);
 		Assert.assertEquals(null,hotel);
+	}
+	
+	@Test
+	public void givenDateRange_WhenFoundBestRatedHotel_ShouldReturnHotel() {
+		HotelReservation hotelReservation=new HotelReservation();
+		Hotel hotel1=new Hotel("LakeWood",110, 90,3);
+		hotelReservation.addHotel(hotel1);
+		Hotel hotel2=new Hotel("BridgeWood",110, 90,4);
+		hotelReservation.addHotel(hotel2);
+		Hotel hotel3=new Hotel("RidgeWood",220, 150,5);
+		hotelReservation.addHotel(hotel3);
+		LocalDate arrivalDate = LocalDate.of(2020, 9, 10);
+		LocalDate departureDate = LocalDate.of(2020, 9, 15);
+		Hotel hotel=hotelReservation.getBestRatedHotel(arrivalDate, departureDate);
+		Assert.assertEquals("RidgeWood",hotel.getHotelName());
 	}
   
 }
