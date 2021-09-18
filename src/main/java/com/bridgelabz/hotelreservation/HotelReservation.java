@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.bridgelabz.hotelreservation.HotelReservationException.exceptionType;
 
-public class HotelReservation {
+public class HotelReservation implements HotelReservationIF {
 	List<Hotel> hotelList=new ArrayList<>();
 	int noOfWeekDay=0;
 	int noOfWeekEnd=0;
@@ -28,7 +28,7 @@ public class HotelReservation {
 		}
 		if(customerType==CustomerType.REGULAR) {
 			Hotel cheapestHotel = hotelList.stream()
-						    	  .min((h1,h2)-> (h1.getWeekendHotelRate()*noOfWeekEnd+h1.getWeekdayHotelRate()*noOfWeekDay)-(h2.getWeekendHotelRate()*noOfWeekEnd+h2.getWeekdayHotelRate()*noOfWeekDay))
+						    	  .min((h1,h2)-> getTotalPriceForRegularCustomer(h1,noOfWeekDay,noOfWeekEnd)-getTotalPriceForRegularCustomer(h2,noOfWeekDay,noOfWeekEnd))
 							      .orElse(null);
 	    	return cheapestHotel;
 		}
@@ -50,7 +50,7 @@ public class HotelReservation {
 				Hotel cheapestHotel=cheapestHotel(arrivalDate, departureDate,customerType);
 				if(customerType==CustomerType.REGULAR) {
 					Hotel cheapestBestRatedHotel=hotelList.stream()
-												 .filter(h->(h.getWeekendHotelRate()*noOfWeekEnd+h.getWeekdayHotelRate()*noOfWeekDay)==(cheapestHotel.getWeekdayHotelRate()*noOfWeekDay+cheapestHotel.getWeekendHotelRate()*noOfWeekEnd))
+												 .filter(h->getTotalPriceForRegularCustomer(h,noOfWeekDay,noOfWeekEnd)==getTotalPriceForRegularCustomer(cheapestHotel,noOfWeekDay,noOfWeekEnd))
 									       	     .max((h1,h2) -> h1.getHotelRating()-h2.getHotelRating())
 										         .orElse(null);
 					return cheapestBestRatedHotel;
@@ -85,5 +85,10 @@ public class HotelReservation {
 		System.out.println("Price"+(bestRatedHotel.getWeekdayHotelRate()*noOfWeekDay+bestRatedHotel.getWeekendHotelRate()*noOfWeekEnd));
 		return bestRatedHotel;
 		
+	}
+	
+	public int getTotalPriceForRegularCustomer(Hotel hotel,int noOfWeekDay,int noOfWeekEnd) {
+		
+		return hotel.getWeekdayHotelRate()*noOfWeekDay+hotel.getWeekendHotelRate()*noOfWeekEnd;
 	}
 }
