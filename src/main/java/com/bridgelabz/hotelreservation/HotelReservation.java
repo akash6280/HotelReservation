@@ -19,13 +19,10 @@ public class HotelReservation implements HotelReservationIF {
 	
 	public Hotel cheapestHotel(LocalDate arrivalDate,LocalDate departureDate,CustomerType customerType) {
 		
-		while(arrivalDate.compareTo(departureDate) <=0) {
-			if(arrivalDate.getDayOfWeek()==DayOfWeek.SATURDAY||arrivalDate.getDayOfWeek()==DayOfWeek.SUNDAY)
-				noOfWeekEnd++;
-			else
-				noOfWeekDay++;
-			arrivalDate=arrivalDate.plusDays(1);
-		}
+		DateServiceProvider services= new DateServiceProvider();
+		noOfWeekEnd=services.getNumOfWeekEnd(arrivalDate, departureDate);
+		noOfWeekDay=services.getNumOfWeekDay(arrivalDate, departureDate);
+		
 		if(customerType==CustomerType.REGULAR) {
 			Hotel cheapestHotel = hotelList.stream()
 						    	  .min((h1,h2)-> getTotalPriceForRegularCustomer(h1,noOfWeekDay,noOfWeekEnd)-getTotalPriceForRegularCustomer(h2,noOfWeekDay,noOfWeekEnd))
@@ -46,6 +43,10 @@ public class HotelReservation implements HotelReservationIF {
 		try {	
 				if(arrivalDate.isAfter(departureDate))
 					throw new HotelReservationException(exceptionType.ENTERED_INVALID,"Entered wrong range of date");
+				
+				DateServiceProvider services= new DateServiceProvider();
+				noOfWeekEnd=services.getNumOfWeekEnd(arrivalDate, departureDate);
+				noOfWeekDay=services.getNumOfWeekDay(arrivalDate, departureDate);
 				
 				Hotel cheapestHotel=cheapestHotel(arrivalDate, departureDate,customerType);
 				if(customerType==CustomerType.REGULAR) {
@@ -71,16 +72,14 @@ public class HotelReservation implements HotelReservationIF {
 	}
 	public Hotel getBestRatedHotel(LocalDate arrivalDate,LocalDate departureDate) {
 		
-		while(arrivalDate.compareTo(departureDate) <=0) {
-			if(arrivalDate.getDayOfWeek()==DayOfWeek.SATURDAY||arrivalDate.getDayOfWeek()==DayOfWeek.SUNDAY)
-				noOfWeekEnd++;
-			else
-				noOfWeekDay++;
-			arrivalDate=arrivalDate.plusDays(1);
-		}
+		DateServiceProvider services= new DateServiceProvider();
+		noOfWeekEnd=services.getNumOfWeekEnd(arrivalDate, departureDate);
+		noOfWeekDay=services.getNumOfWeekDay(arrivalDate, departureDate);
+		
 		Hotel bestRatedHotel = hotelList.stream()
 							  .max( (h1,h2)->h1.getHotelRating()-h2.getHotelRating())
 							  .orElse(null);
+		
 		if(bestRatedHotel!=null)	
 		System.out.println("Price"+(bestRatedHotel.getWeekdayHotelRate()*noOfWeekDay+bestRatedHotel.getWeekendHotelRate()*noOfWeekEnd));
 		return bestRatedHotel;
