@@ -34,7 +34,7 @@ public class HotelReservation implements HotelReservationIF {
 		}
 		else {
 			Hotel cheapestHotel = hotelList.stream()
-								  .min((h1,h2)-> (h1.getRewardWeekEndHotelRate()*noOfWeekEnd+h1.getRewardWeekDayHotelRate()*noOfWeekDay)-(h2.getRewardWeekEndHotelRate()*noOfWeekEnd+h2.getRewardWeekDayHotelRate()*noOfWeekDay))
+								  .min((h1,h2)-> getTotalPriceForRewardedCustomer(h1,noOfWeekDay,noOfWeekEnd)-getTotalPriceForRewardedCustomer(h2,noOfWeekDay,noOfWeekEnd))
 								  .orElse(null);
 			return cheapestHotel;
 		}
@@ -57,7 +57,7 @@ public class HotelReservation implements HotelReservationIF {
 				}
 				else {
 					Hotel cheapestBestRatedHotel=hotelList.stream()
-						                    	 .filter(h->(h.getRewardWeekDayHotelRate()*noOfWeekEnd+h.getRewardWeekEndHotelRate()*noOfWeekDay)==(cheapestHotel.getRewardWeekDayHotelRate()*noOfWeekDay+cheapestHotel.getRewardWeekEndHotelRate()*noOfWeekEnd))
+						                    	 .filter(h->getTotalPriceForRewardedCustomer(h,noOfWeekDay,noOfWeekEnd)==getTotalPriceForRewardedCustomer(cheapestHotel,noOfWeekDay,noOfWeekEnd))
 				       	                         .max((h1,h2) -> h1.getHotelRating()-h2.getHotelRating())
 					                             .orElse(null);
 					return cheapestBestRatedHotel;
@@ -90,5 +90,10 @@ public class HotelReservation implements HotelReservationIF {
 	public int getTotalPriceForRegularCustomer(Hotel hotel,int noOfWeekDay,int noOfWeekEnd) {
 		
 		return hotel.getWeekdayHotelRate()*noOfWeekDay+hotel.getWeekendHotelRate()*noOfWeekEnd;
+	}
+	
+	public int getTotalPriceForRewardedCustomer(Hotel hotel,int noOfWeekDay,int noOfWeekEnd) {
+		
+		return hotel.getRewardWeekDayHotelRate()*noOfWeekDay+hotel.getRewardWeekEndHotelRate()*noOfWeekEnd;
 	}
 }
