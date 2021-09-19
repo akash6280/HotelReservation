@@ -119,7 +119,7 @@ public class HotelReservationTest {
 		try {
 			hotelReservation.cheapestAndBestRatedHotel(arrivalDate,departureDate,null);
 		} catch (HotelReservationException e) {
-			Assert.assertEquals(exceptionType.ENTERED_INVALID,e.etype);		
+			Assert.assertEquals(exceptionType.ENTERED_NULL,e.etype);		
 		}
 	}
 	
@@ -150,6 +150,14 @@ public class HotelReservationTest {
 			hotelReservation.cheapestAndBestRatedHotel(arrivalDate,departureDate,CustomerType.REGULAR);
 		} catch (HotelReservationException e) {
 			Assert.assertEquals(exceptionType.ENTERED_INVALID,e.etype);		
+		}
+	}
+	@Test
+	public void givenDateRangeForRegularCustomer_WhenCustomerFieldIsNull_ShouldThrowException() {
+		try {
+			hotelReservation.cheapestAndBestRatedHotel(arrivalDate,departureDate,null);
+		} catch (HotelReservationException e) {
+			Assert.assertEquals(exceptionType.ENTERED_NULL,e.etype);		
 		}
 	}
 	
