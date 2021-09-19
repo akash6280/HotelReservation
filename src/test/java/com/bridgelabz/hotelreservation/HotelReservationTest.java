@@ -84,7 +84,7 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void givenDateRange_WhenArrivaLDateIsNull_ShouldThrowException() {
+	public void givenDateRangeForRewardCustomer_WhenArrivaLDateIsNull_ShouldThrowException() {
 		
 		try {
 			hotelReservation.cheapestAndBestRatedHotel(null, departureDate,CustomerType.REWARD);
@@ -94,7 +94,7 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void givenDateRange_WhenDepartureDateIsNull_ShouldThrowException() {
+	public void givenDateRangeForRewardCustomer_WhenDepartureDateIsNull_ShouldThrowException() {
 		
 		try {
 			hotelReservation.cheapestAndBestRatedHotel(arrivalDate,null,CustomerType.REWARD);
@@ -104,7 +104,7 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void givenDateRange_WhenArrivalDateIsAfterDepartureDate_ShouldThrowException() {
+	public void givenDateRangeForRewardCustomer_WhenArrivalDateIsAfterDepartureDate_ShouldThrowException() {
 		LocalDate arrivalDate = LocalDate.of(2020, 9, 15);
 		LocalDate departureDate = LocalDate.of(2020, 9, 10);
 		try {
@@ -115,12 +115,22 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void givenDateRange_WhenCustomerFieldIsNull_ShouldThrowException() {
+	public void givenDateRangeForRewardCustomer_WhenCustomerFieldIsNull_ShouldThrowException() {
 		try {
 			hotelReservation.cheapestAndBestRatedHotel(arrivalDate,departureDate,null);
 		} catch (HotelReservationException e) {
 			Assert.assertEquals(exceptionType.ENTERED_INVALID,e.etype);		
 		}
 	}
-  
+	
+	@Test
+	public void givenDateRangeForRegularCustomer_WhenArrivaLDateIsNull_ShouldThrowException() {
+		
+		try {
+			hotelReservation.cheapestAndBestRatedHotel(null, departureDate,CustomerType.REGULAR);
+		} catch (HotelReservationException e) {
+			Assert.assertEquals(exceptionType.ENTERED_NULL,e.etype);
+		}
+	}
+	
 }
