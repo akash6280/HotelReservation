@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.bridgelabz.hotelreservation.HotelReservationException.exceptionType;
 
@@ -41,9 +42,8 @@ public class HotelReservation implements HotelReservationIF {
 	
 	public Hotel cheapestAndBestRatedHotel(LocalDate arrivalDate,LocalDate departureDate,CustomerType customerType) {
 		try {	
-				if(arrivalDate.isAfter(departureDate))
-					throw new HotelReservationException(exceptionType.ENTERED_INVALID,"Entered wrong range of date");
 				
+				validateDate(arrivalDate.toString(),departureDate.toString());
 				DateServiceProvider services= new DateServiceProvider();
 				noOfWeekEnd=services.getNumOfWeekEnd(arrivalDate, departureDate);
 				noOfWeekDay=services.getNumOfWeekDay(arrivalDate, departureDate);
@@ -94,5 +94,20 @@ public class HotelReservation implements HotelReservationIF {
 	public int getTotalPriceForRewardedCustomer(Hotel hotel,int noOfWeekDay,int noOfWeekEnd) {
 		
 		return hotel.getRewardWeekDayHotelRate()*noOfWeekDay+hotel.getRewardWeekEndHotelRate()*noOfWeekEnd;
+	}
+	
+	public  boolean validateDate(String date1,String date2) {
+		try {
+			String dateRegex="^([0-9]{4})[-]((0[1-9])|1[012])[-]([012][0-9]|[3][01])$";
+			if(Pattern.matches(dateRegex, date1)&& Pattern.matches(dateRegex, date2) )
+				return true;
+			else if(date1.length()==0||date2.length()==0)
+				throw new HotelReservationException(exceptionType.ENTERED_EMPTY,"Entered empty value");
+			else
+				throw new HotelReservationException(exceptionType.ENTERED_INVALID,"Entered invalid date");
+		}catch(NullPointerException e) {
+			throw new HotelReservationException(exceptionType.ENTERED_NULL,"enterd null value"); 
+		}
+
 	}
 }
