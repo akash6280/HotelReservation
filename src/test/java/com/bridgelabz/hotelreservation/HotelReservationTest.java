@@ -132,5 +132,15 @@ public class HotelReservationTest {
 			Assert.assertEquals(exceptionType.ENTERED_NULL,e.etype);
 		}
 	}
+	@Test
+	public void givenDateRangeForRegularCustomer_WhenDepartueDateIsNull_ShouldThrowException() {
+		
+		try {
+			hotelReservation.cheapestAndBestRatedHotel(arrivalDate, null,CustomerType.REGULAR);
+		} catch (HotelReservationException e) {
+			Assert.assertEquals(exceptionType.ENTERED_NULL,e.etype);
+		}
+	}
+	
 	
 }
