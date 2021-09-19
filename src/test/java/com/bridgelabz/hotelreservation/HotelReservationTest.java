@@ -142,5 +142,16 @@ public class HotelReservationTest {
 		}
 	}
 	
+	@Test
+	public void givenDateRangeForRegularCustomer_WhenArrivalDateIsAfterDepartureDate_ShouldThrowException() {
+		LocalDate arrivalDate = LocalDate.of(2020, 9, 15);
+		LocalDate departureDate = LocalDate.of(2020, 9, 10);
+		try {
+			hotelReservation.cheapestAndBestRatedHotel(arrivalDate,departureDate,CustomerType.REGULAR);
+		} catch (HotelReservationException e) {
+			Assert.assertEquals(exceptionType.ENTERED_INVALID,e.etype);		
+		}
+	}
+	
 	
 }
